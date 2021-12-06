@@ -5,7 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import App from './App';
 import './index.css';
 import { store } from './app/store';
-import { CssBaseline } from '@mui/material';
+import { CssBaseline } from '@material-ui/core';
 import { ConnectedRouter } from 'connected-react-router';
 import { history } from 'utils';
 

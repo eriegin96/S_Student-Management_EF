@@ -1,7 +1,7 @@
-import { call, delay, put, takeEvery, takeLatest } from '@redux-saga/core/effects';
+import { delay, put, takeEvery /*  call, takeLatest */ } from '@redux-saga/core/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { fetchCount } from './counterAPI';
-import { increment, incrementSaga, incrementSagaSuccess } from './counterSlice';
+// import { fetchCount } from './counterAPI';
+import { /* increment, */ incrementSaga, incrementSagaSuccess } from './counterSlice';
 
 // export function* log(action: PayloadAction) {
 // 	console.log('Log', action);
@@ -15,12 +15,11 @@ function* handleIncrementSaga(action: PayloadAction<number>) {
 	console.log('Waiting done, dispatch action');
 
 	// Dispatch action success
-	yield put(incrementSagaSuccess(action.payload))
+	yield put(incrementSagaSuccess(action.payload));
 }
 
 export default function* counterSaga() {
 	console.log('counter saga');
-
 
 	// yield takeEvery('*', log);
 

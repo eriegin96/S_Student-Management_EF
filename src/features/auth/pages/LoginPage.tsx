@@ -1,29 +1,23 @@
-import * as React from 'react';
-import {
-	Paper,
-	Typography,
-	Box,
-	Button,
-	styled,
-	createTheme,
-	CircularProgress,
-} from '@mui/material';
+import { Paper, Typography, Box, Button, CircularProgress, makeStyles } from '@material-ui/core';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { authActions } from '../authSlice';
 
-const theme = createTheme();
+const useStyles = makeStyles((theme) => ({
+	root: {
+		display: 'flex',
+		flexFlow: 'row nowrap',
+		justifyContent: 'center',
+		alignItems: 'center',
+		minHeight: '100vh',
+	},
 
-const Root = styled('div')({
-	display: 'flex',
-	flexWrap: 'nowrap',
-	justifyContent: 'center',
-	alignItems: 'center',
-	minHeight: '100vh',
-});
-
-const box = { padding: theme.spacing(3) };
+	box: {
+		padding: theme.spacing(3),
+	},
+}));
 
 export default function LoginPage() {
+	const classes = useStyles();
 	const dispatch = useAppDispatch();
 	const isLogging = useAppSelector((state) => state.auth.logging);
 
@@ -33,26 +27,18 @@ export default function LoginPage() {
 	};
 
 	return (
-		// <div style={root}>
-		<Root>
-			<Paper style={box} elevation={3}>
+		<div className={classes.root}>
+			<Paper className={classes.box} elevation={1}>
 				<Typography variant="h5" component="h1">
 					Student Management
 				</Typography>
 
 				<Box mt={4}>
-					<Button
-						fullWidth
-						variant="contained"
-						color="primary"
-						onClick={handleLoginClick}
-					>
-						{isLogging && <CircularProgress size={20} color="secondary" />} &nbsp;
-						Fake Login
+					<Button fullWidth variant="contained" color="primary" onClick={handleLoginClick}>
+						{isLogging && <CircularProgress size={20} color="secondary" />} &nbsp; Fake Login
 					</Button>
 				</Box>
 			</Paper>
-			{/* </div> */}
-		</Root>
+		</div>
 	);
 }

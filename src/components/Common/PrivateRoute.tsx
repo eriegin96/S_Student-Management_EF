@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Redirect, RouteProps, Route } from 'react-router-dom';
 
 export function PrivateRoute(props: RouteProps) {

@@ -18,7 +18,7 @@ function* handleLogin(payload: LoginPayload) {
 		yield put(authActions.loginFailed(error.message));
 	}
 	// redirect to admin page
-	yield put(push('/admin'))
+	yield put(push('/admin/dashboard'));
 }
 
 function* handleLogout() {
@@ -26,7 +26,7 @@ function* handleLogout() {
 	localStorage.removeItem('access_token');
 
 	// redireact to login page
-	yield put(push('/login'))
+	yield put(push('/login'));
 }
 
 function* watchLoginFlow() {
@@ -43,6 +43,6 @@ function* watchLoginFlow() {
 	}
 }
 
-export function* authSaga() {
+export default function* authSaga() {
 	yield fork(watchLoginFlow);
 }
