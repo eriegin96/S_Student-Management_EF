@@ -15,7 +15,6 @@ function* fetchStudentList(action: PayloadAction<ListParams>) {
 }
 
 function* handleSearchDebounce(action: PayloadAction<ListParams>) {
-	console.log('Student Saga debounce', action.payload);
 	yield put(studentActions.setFilter(action.payload));
 }
 

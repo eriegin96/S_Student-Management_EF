@@ -19,7 +19,7 @@ export default function StudentFeature() {
 				<ListPage />
 			</Route>
 
-			<Route path={`${match.path}add`}>
+			<Route path={`${match.path}/add`}>
 				<AddEditPage />
 			</Route>
 

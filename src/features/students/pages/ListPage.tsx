@@ -12,7 +12,10 @@ import {
 import StudentTable from '../components/StudentTable';
 import { selectCityList, selectCityMap } from 'features/city/citySlice';
 import StudentFilters from '../components/StudentFilters';
-import { ListParams } from 'models';
+import { ListParams, Student } from 'models';
+import studentApi from 'api/studentApi';
+import { Link, useRouteMatch, useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -36,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ListPage() {
+	const match = useRouteMatch();
+	const history = useHistory();
+
 	const studentList = useAppSelector(selectStudentList);
 	const pagination = useAppSelector(selectStudentPagination);
 	const filter = useAppSelector(selectStudentFilter);
@@ -55,8 +61,27 @@ export default function ListPage() {
 	};
 
 	const handleSearchChange = (newFilter: ListParams) => {
-		console.log('Search change: ', newFilter);
 		dispatch(studentActions.setFilterWithDebounce(newFilter));
+	};
+
+	const handleFilterChange = (newFilter: ListParams) => {
+		dispatch(studentActions.setFilter(newFilter));
+	};
+
+	const hanldeRemoveStudent = async (student: Student) => {
+		try {
+			await studentApi.remove(student?.id || '');
+
+			toast.success('Remove student successfully');
+
+			dispatch(studentActions.setFilter({ ...filter }));
+		} catch (error) {
+			console.log('Failed to fetch student', error);
+		}
+	};
+
+	const handleEditStudent = async (student: Student) => {
+		history.push(`${match.url}/${student.id}`);
 	};
 
 	return (
@@ -66,17 +91,28 @@ export default function ListPage() {
 			<Box className={classes.titleContainer}>
 				<Typography variant="h4">Students</Typography>
 
-				<Button variant="contained" color="primary">
-					Add new student
-				</Button>
+				<Link to={`${match.url}/add`} style={{ textDecoration: 'none' }}>
+					<Button variant="contained" color="primary">
+						Add new student
+					</Button>
+				</Link>
 			</Box>
-
 			<Box mb={3}>
-				<StudentFilters filter={filter} cityList={cityList} onSearchChange={handleSearchChange} />
+				<StudentFilters
+					filter={filter}
+					cityList={cityList}
+					onChange={handleFilterChange}
+					onSearchChange={handleSearchChange}
+				/>
 			</Box>
 
 			{/* StudentTable */}
-			<StudentTable studentList={studentList} cityMap={cityMap} />
+			<StudentTable
+				studentList={studentList}
+				onEdit={handleEditStudent}
+				cityMap={cityMap}
+				onRemove={hanldeRemoveStudent}
+			/>
 
 			{/* Pagination */}
 			<Box my={2} display="flex" justifyContent="center">

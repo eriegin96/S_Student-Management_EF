@@ -3,7 +3,6 @@ import LoginPage from 'features/auth/pages/LoginPage';
 import { NotFound, PrivateRoute } from 'components/Common';
 import { AdminLayout } from 'components/Layout';
 
-
 function App() {
 	return (
 		<div>
